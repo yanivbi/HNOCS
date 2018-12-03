@@ -6,6 +6,8 @@ HNOCS is an open-source implementation of a NoC simulation framework using OMNeT
 A summary paper of HNOCS:  
 Y. Ben-Itzhak, E. Zahavi, I. Cidon, and A. Kolodny, "HNOCS: Modular Open-Source Simulator for Heterogeneous NoCs"
  , SAMOS XII: International Conference on Embedded Computer Systems: Architectures, Modeling and Simulation
- 
-The paper can be found here: [paper](https://drive.google.com/open?id=0Bxu4tf1eybWYeHFQdnBQUjF0dUU)
-, and the bibtex here: [bibtex](https://scholar.googleusercontent.com/scholar.bib?q=info:s8zLKRg3a4kJ:scholar.google.com/&output=citation&scisig=AAGBfm0AAAAAXAUXqelt1cba3YKwXFTOHJmA14PKc7K_&scisf=4&ct=citation&cd=-1&hl=en)
+
+Links:   
+[paper](https://drive.google.com/open?id=0Bxu4tf1eybWYeHFQdnBQUjF0dUU)  
+[slides](https://drive.google.com/open?id=0Bxu4tf1eybWYLWhrMVRQbVZqSlU)   
+[bibtex](https://scholar.googleusercontent.com/scholar.bib?q=info:s8zLKRg3a4kJ:scholar.google.com/&output=citation&scisig=AAGBfm0AAAAAXAUXqelt1cba3YKwXFTOHJmA14PKc7K_&scisf=4&ct=citation&cd=-1&hl=en) 
