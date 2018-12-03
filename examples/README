@@ -1,0 +1,23 @@
+HNOCS Simulation Framework for OMNEST/OMNeT++
+==============================================
+
+The HNOCS framework is an open-source network-on-chip networks simulation
+package, written for the OMNEST/OMNeT++ simulation system. The HNOCS 
+framework contains models for several architectures of network on chip 
+implementation.
+
+The set of example runs provided by this demo is:
+
+Mesh 4x4
+  Async - an asynchronous router design - simplest model assuming no latency
+          within the router and no clock that synchronizes the circuit.
+  Sync  - a synchronous router with single FIFO per VC on the input buffer
+  
+
+Mesh 8x8
+  Async - an asynchronous router design - simplest model assuming ...
+  Sync  - a synchronous router with single FIFO per VC on the input buffer
+  
+  
+An experiment named unifor_eval - available under each one of the router types -
+may be used to produce latency and throughput versus offered load plots.

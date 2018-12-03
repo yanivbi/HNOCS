@@ -1,0 +1,18 @@
+#!/bin/sh
+num_runs=`../../../src/run_nocs -u Cmdenv -a | awk '/Config General/{print $3}'`
+last_run=`expr $num_runs - 1`
+while true; do
+    read -p "This simulation will run $num_runs runs. Do you wish to continue?" yn
+    case $yn in
+        [Yy]* ) make install; break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+for i in `seq 0 $num_runs`; do
+   echo "running iteration $i ..."
+   ../../../src/run_nocs -u Cmdenv -r $i > log
+done
+
+echo "Done! Check results directory in $PWD"
+exit

@@ -1,0 +1,6 @@
+1.1.2013 - New release version:
+* Fixed memory leakage bug.
+* Fixed Sync router bug for heterogeneous NoC.
+* Add link utilization statistics.
+* Add option to define SchedSync`s tClk whether from the ini parameter or by its egress link BW.
+ 

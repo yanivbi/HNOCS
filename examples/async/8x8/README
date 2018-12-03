@@ -1,0 +1,13 @@
+This demo show a 8x8 Mesh that is using an asynchrounous 
+router. This router is hierarchical and built out of input 
+ports, output ports and VC and XY routing output port selectors.
+The modules used are:
+**.routerType = "nocs.routers.hier.idealRouter"
+**.coreType   = "nocs.cores.NI"
+**.sourceType = "nocs.cores.sources.PktFifoSrc"
+**.sinkType   = "nocs.cores.sinks.InfiniteBWMultiVCSink"
+**.portType   = "nocs.routers.hier.Port"
+**.inPortType = "nocs.routers.hier.inPort.InPortAsync"
+**.OPCalcType = "nocs.routers.hier.opCalc.static.XYOPCalc"
+**.VCCalcType = "nocs.routers.hier.vcCalc.free.FLUVCCalc"
+**.schedType  = "nocs.routers.hier.sched.wormhole.SchedAsync"

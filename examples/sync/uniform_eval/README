@@ -1,0 +1,26 @@
+This demo show how many simulation can be run to evaluate a 4x4 Mesh 
+that is using a synchrounous router under uniform random destination traffic.  
+
+The experiment uses a single packet size of 16flits and performs 10 
+simulations on each offerred load. The average and maximal latency
+as well as the average and minimal throughput (over all sinks) are measured.
+
+NOTE: To produce the plots we simulate 100 cases (10 offered loads 10 random seeds each).
+
+This router is hierarchical and built out of input 
+ports, output ports and VC and XY routing output port selectors.
+The input port have a FIFO for each VC. When packet reaches the
+top of the FIFO it obtains it's output VC and request to be 
+granted the switch from the output port it should pass through.
+The modules used are:
+**.routerType = "nocs.routers.hier.Router"
+**.coreType   = "nocs.cores.NI"
+**.sourceType = "nocs.cores.sources.PktFifoSrc"
+**.sinkType   = "nocs.cores.sinks.InfiniteBWMultiVCSink"
+**.portType   = "nocs.routers.hier.Port"
+**.inPortType = "nocs.routers.hier.inPort.InPortSync"
+**.OPCalcType = "nocs.routers.hier.opCalc.static.XYOPCalc"
+**.VCCalcType = "nocs.routers.hier.vcCalc.free.FLUVCCalc"
+**.schedType  = "nocs.routers.hier.sched.wormhole.SchedSync"
+
+THIS SIMULATION IS RUNNING ONLY ON LINUX

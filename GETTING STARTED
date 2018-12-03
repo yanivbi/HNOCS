@@ -1,0 +1,76 @@
+HNOCS Simulation Framework for OMNEST/OMNeT++
+==============================================
+
+The HNOCS framework is an open-source network-on-chip networks simulation
+package, written for the OMNEST/OMNeT++ simulation system. The HNOCS framework
+contains models for several architectures of network on chip implementation.
+Its main difference from other NoC simulation platforms is that it support
+heretogeneous NoC implementations.
+
+Visit our website (http://hnocs.eew.technion.ac.il/) for latest release, forum, and mailiing list. 
+Look into the NEWS file to find out about new features added.
+
+GETTING STARTED
+---------------
+If you read this file you must have downloaded and unzip/untar'ed the HNOCS 
+package. To prepare the models you will just need to make sure you have
+installed OMNEST/OMNeT++ include <omnet-home-dir>/bin in your PATH and run:
+make makefiles
+make
+
+It is advisible to take the OMNeT++ tutorial from:  
+http://www.omnetpp.org/doc/omnetpp40/tictoc-tutorial/index.html.
+
+Then you can gather initial experience by running some of the simulations in
+the examples directory by running:
+./examples/run_nocs
+
+After that, you can learn the NED language from the OMNeT++ manual & sample
+simulations, read the OMNeT++ user manual and start coding your own modules. 
+
+Directory structure
+-------------------
+The directories included in this model are following the basic structure of a NoC:
+src/                   all modules of the projects 
+   cores/              the netork interfaces
+      sources/         packet generators injecting into the network
+      sinks/           packet collectors 
+      
+   topologies/         collection of common topologies
+   
+   routers/            the packet switching logic within the network
+      flat/            routers that are built with no internal hierarchy
+      hier/            hierarchical routers built from a set of "ports"
+         sched/        schedulers=arbiters responsible for selecting which
+                       packet will win the out port
+            wormhole/  schedulers that are enforcing wormhole packet switching
+         inPort/       input port logic including the queues and request for
+                       arbitration 
+         opCalc/       output port claculators - the routing function - 
+                       selecting packet out port
+            static/    deterministic = static routing 
+         vcCalc/       VC allocators
+            free/      VC allocators that are allocating from the set of free
+                       VCs
+
+Using NED Interfaces
+=====================
+To facilitate a flexible simulation environment we use the OMNeT++ "Module
+Interface"feature. This allows us to declare the exect implementation to be
+used for each of the modules as a paremeter during simulation. Each interface
+is included in its own NED file.
+
+The following interfaces are defined:
+NI_Ifc       - Network interface; ports: in, out; params: id (its address)
+Source_Ifc   - Source of traffic; ports: out; params: srcId
+Sink_Ifc     - Sink of traffic; ports: in; params: numVCs 
+Port_Ifc     - Hierarchical router port; ports: in, out, sw_in, sw_out, 
+               sw_ctrl_in, sw_ctrl_out; params: numPorts
+Router_Ifc   - NoC router; ports in[], out[]; params: id, numPorts 
+Sched_Ifc    - Scheduler/Arbiter; ports: ctrl[], in[], out[]; params: numVCs
+InPort_Ifc   - Router input port; ports: in, out[], ctrl[], calcVC, calcOp; 
+               params: numVCs 
+OPCalc_Ifc   - Routing calculation; ports: calc
+VCCalc_Ifc   - VC Allocator; ports: calc
+
+              

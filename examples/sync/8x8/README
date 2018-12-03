@@ -1,0 +1,16 @@
+This demo show a 8x8 Mesh that is using a synchrounous 
+router. This router is hierarchical and built out of input 
+ports, output ports and VC and XY routing output port selectors.
+The input port have a FIFO for each VC. When packet reaches the
+top of the FIFO it obtains it's output VC and request to be 
+granted the switch from the output port it should pass through.
+The modules used are:
+**.routerType = "nocs.routers.hier.Router"
+**.coreType   = "nocs.cores.NI"
+**.sourceType = "nocs.cores.sources.PktFifoSrc"
+**.sinkType   = "nocs.cores.sinks.InfiniteBWMultiVCSink"
+**.portType   = "nocs.routers.hier.Port"
+**.inPortType = "nocs.routers.hier.inPort.InPortSync"
+**.OPCalcType = "nocs.routers.hier.opCalc.static.XYOPCalc"
+**.VCCalcType = "nocs.routers.hier.vcCalc.free.FLUVCCalc"
+**.schedType  = "nocs.routers.hier.sched.wormhole.SchedSync"

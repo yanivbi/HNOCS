@@ -1,0 +1,14 @@
+#! /bin/sh
+DIR=`dirname $0`
+
+if [ -x $DIR/hnocs -o -x $DIR/hnocs.exe ]; then
+  $DIR/hnocs -n $DIR/../examples:$DIR $*
+else 
+  if [ -r $DIR/libhnocs.so -o -r $DIR/hnocs.dll ]; then
+     opp_run -l $DIR/hnocs -n $DIR/examples:$DIR $*
+  else 
+      echo ----------------------------------------------------------
+      echo Please run 'make makefiles; make' before invoking the demo
+      echo ----------------------------------------------------------
+  fi
+fi
