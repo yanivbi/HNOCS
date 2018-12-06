@@ -63,6 +63,7 @@ void InfiniteBWMultiVCSink::initialize() {
 		sendCredit(vc, 100);
 
 	SoPEnd2EndLatencyHist.setName("SoP-E2E-Latency-Hist");
+	SoPEnd2EndLatencyHist.setMode(cHistogram::MODE_INTEGERS);
 }
 
 void InfiniteBWMultiVCSink::sendCredit(int vc, int num) {

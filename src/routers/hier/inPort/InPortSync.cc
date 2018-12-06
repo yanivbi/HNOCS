@@ -208,13 +208,13 @@ void InPortSync::handleCalcOPResp(NoCFlitMsg *msg) {
 	   << " will be sent to port:" << curOutPort[inVC] << endl;
 
 	// buffering is by inVC
-	if (QByiVC[inVC].length() >= flitsPerVC) {
+	if (QByiVC[inVC].getLength() >= flitsPerVC) {
 		throw cRuntimeError("-E- VC %d is already full receiving packet:%d",
 				inVC, msg->getPktId());
 	}
 
 	// send it to get the out VC
-	if (QByiVC[inVC].empty()) {
+	if (QByiVC[inVC].isEmpty()) {
 		send(msg,"calcVc$o");
 	} else {
 		// we queue the flits on their inVC
@@ -279,7 +279,7 @@ void InPortSync::handleInFlitMsg(NoCFlitMsg *msg) {
 		   << outPort << endl;
 
 		// buffering is by inVC
-		if (QByiVC[inVC].length() >= flitsPerVC) {
+		if (QByiVC[inVC].getLength() >= flitsPerVC) {
 			throw cRuntimeError("-E- VC %d is already full receiving packet:%d",
 					inVC, msg->getPktId());
 		}
@@ -304,7 +304,7 @@ void InPortSync::handleGntMsg(NoCGntMsg *msg) {
 	   << " through gate:" << msg->getArrivalGate()->getFullPath() <<" SimTime:" <<simTime()<< endl;
 
 	NoCFlitMsg* foundFlit = NULL;
-	if (!QByiVC[inVC].empty()) {
+	if (!QByiVC[inVC].isEmpty()) {
 		foundFlit = (NoCFlitMsg*)QByiVC[inVC].pop();
 		foundFlit->setVC(curOutVC[inVC]);
 
@@ -312,7 +312,7 @@ void InPortSync::handleGntMsg(NoCGntMsg *msg) {
 		measureQlength();
 
 		// If NOC_END_FLIT, then check if there is another packet, if yes send to calcVC
-		if (foundFlit->getType() == NOC_END_FLIT && !QByiVC[inVC].empty()) {
+		if (foundFlit->getType() == NOC_END_FLIT && !QByiVC[inVC].isEmpty()) {
 			NoCFlitMsg* nextPkt = (NoCFlitMsg*)QByiVC[inVC].pop();
 			// need to get oVC and the response will send the req
 			send(nextPkt,"calcVc$o");
@@ -361,7 +361,7 @@ InPortSync::~InPortSync() {
 	numVCs = par("numVCs");
 	NoCFlitMsg* msg = NULL;
 	for (int vc = 0; vc < numVCs; vc++) {
-		while (!QByiVC[vc].empty()) {
+		while (!QByiVC[vc].isEmpty()) {
 			msg = (NoCFlitMsg*) QByiVC[vc].pop();
 			cancelAndDelete(msg); //cancelAndDelete?!
 		}
@@ -374,7 +374,7 @@ void InPortSync::measureQlength() {
 		int numVCs = par("numVCs");
 		int Qsize = 0;
 		for (int vc = 0; vc < numVCs; vc++) {
-			Qsize = Qsize + QByiVC[vc].length();
+			Qsize = Qsize + QByiVC[vc].getLength();
 		}
 		QLenVec.record(Qsize);
 	}

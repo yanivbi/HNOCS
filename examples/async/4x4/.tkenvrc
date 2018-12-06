@@ -1,4 +1,0 @@
-# Partial Tkenv config file -- see $HOME/.tkenvrc as well
-inspector "Mesh.router[6].port[0]" "Port" "2" "299x342+874+25:normal"
-inspector "Mesh.router[6]" "idealRouter" "2" "320x342+421+24:normal"
-

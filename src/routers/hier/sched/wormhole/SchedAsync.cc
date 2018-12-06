@@ -170,7 +170,7 @@ void SchedAsync::arbitrate() {
 		} else {
 			// go select the first Req
 			// is there a pending req?
-			if (!Reqs.empty()) {
+			if (!Reqs.isEmpty()) {
 				NoCReqMsg *req_new = (NoCReqMsg*) Reqs.front();
 				nextVC = vc;
 				nextInPort = req_new->getArrivalGate()->getIndex();
@@ -190,7 +190,7 @@ void SchedAsync::arbitrate() {
 	NoCReqMsg *req = NULL;
 
 	if (found_newreq) {
-		if (!Reqs.empty()) {
+		if (!Reqs.isEmpty()) {
 			req = (NoCReqMsg*) Reqs.pop();
 			if (vcCurReq[nextVC] != NULL || vcCurInVC[nextVC] != -1 ||vcCurInPort[nextVC] != -1) {
 				throw cRuntimeError("-E- selected other req (Inport: %d, InVC: %d) while current Req (Inport: %d, InVC: %d) is not fully completed.",nextInPort,nextInVC,vcCurInPort[nextVC],vcCurInVC[nextVC]);
@@ -486,7 +486,7 @@ SchedAsync::~SchedAsync() {
 		cancelAndDelete(popMsg);
 	}
 
-	while (!Reqs.empty()) {
+	while (!Reqs.isEmpty()) {
 		NoCReqMsg *req = (NoCReqMsg *) Reqs.pop();
 		cancelAndDelete(req);
 	}

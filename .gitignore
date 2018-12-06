@@ -1,0 +1,10 @@
+*.so
+*.dll
+*.exe
+.qtenvrc
+*_m.h
+*_m.cc
+*.sca
+*.vec
+/src/Makefile
+/out

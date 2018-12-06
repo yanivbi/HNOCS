@@ -66,8 +66,9 @@ void PktFifoSrc::initialize() {
 
 		scheduleAt(simTime(), genMsg);
 		dstIdHist.setName("dstId-Hist");
-		dstIdHist.setRangeAutoUpper(0);
-		dstIdHist.setCellSize(1.0);
+		dstIdHist.setMode(cHistogram::MODE_INTEGERS);
+		dstIdHist.setBinSizeHint(1.0);
+		dstIdHist.setRange(0, NAN);
 		dstIdVec.setName("dstId");
 
 		// obtain the data rate of the outgoing link
@@ -125,7 +126,7 @@ void PktFifoSrc::initialize() {
 
 		// send the FLIT out and schedule the next pop
 void PktFifoSrc::sendFlitFromQ() {
-	if (Q.empty() || (credits <= 0))
+	if (Q.isEmpty() || (credits <= 0))
 		return;
 	if (!isSynchronous && popMsg->isScheduled())
 		return;
@@ -283,7 +284,7 @@ PktFifoSrc::~PktFifoSrc() {
 		cancelAndDelete(genMsg);
 	}
 
-	while (!Q.empty()) {
+	while (!Q.isEmpty()) {
 		NoCFlitMsg* flit = (NoCFlitMsg*) Q.pop();
 		delete flit;
 	}
