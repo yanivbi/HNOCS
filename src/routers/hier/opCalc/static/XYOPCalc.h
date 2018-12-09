@@ -19,8 +19,10 @@
 #define __HNOCS_OPCALC_H_
 
 #include <omnetpp.h>
-#include <NoCs_m.h>
-#include <FlitMsgCtrl.h>
+using namespace omnetpp;
+
+#include "NoCs_m.h"
+#include "routers/hier/FlitMsgCtrl.h"
 
 //
 // The Out Port Calc class implements the local routing decision.

@@ -18,6 +18,8 @@
 #ifndef __HNOCS_FLIT_MSG_CTRL_H_
 #define __HNOCS_FLIT_MSG_CTRL_H_
 #include <omnetpp.h>
+using namespace omnetpp;
+
 // we need extra info inside the InPort for tracking FLITs
 class inPortFlitInfo : public cObject {
 public:

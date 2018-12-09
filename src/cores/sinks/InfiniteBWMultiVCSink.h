@@ -20,7 +20,9 @@
 #define __HNOCS_INF_BW_MULTI_VC_SINK_H_
 
 #include <omnetpp.h>
-#include <NoCs_m.h>
+using namespace omnetpp;
+
+#include "NoCs_m.h"
 //
 // The InfiniteBWMultiVCSink is consuming FLITs
 //
@@ -45,7 +47,7 @@ private:
 	cStdDev packetLatency; // total packet network latency, SoP (1st transmit) -> EoP (received @ sink)
 	cStdDev numReceivedPkt; // number of received packets, assume that onlt single source is transmitting
 
-	cLongHistogram SoPEnd2EndLatencyHist; // source queuing + network-latency (for Head flit only)
+	cHistogram SoPEnd2EndLatencyHist; // source queuing + network-latency (for Head flit only)
 
 	std::vector<int> vcFLITs;
 	std::vector<int> vcFlitIdx; // for checking receiving order of flits from each vc

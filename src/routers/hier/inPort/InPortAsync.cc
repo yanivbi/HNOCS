@@ -197,14 +197,14 @@ void InPortAsync::handleCalcOPResp(NoCFlitMsg *msg) {
 	<< " will be sent to port:" << curOutPort[inVC] << endl;
 
 	// buffering is by inVC
-	if (QByiVC[inVC].length() >= flitsPerVC) {
+	if (QByiVC[inVC].getLength() >= flitsPerVC) {
 		throw cRuntimeError("-E- VC %d is already full receiving packet:%d",
 				inVC, msg->getPktId());
 	}
 
 	// If arrived to empty queue also send req,
 	// If not will be sent when it will arrive to the head of queue
-	if (QByiVC[inVC].empty()) {
+	if (QByiVC[inVC].isEmpty()) {
 		sendReq(msg);
 	}
 	// we queue the flits on their out Port and VC
@@ -267,7 +267,7 @@ void InPortAsync::handleInFlitMsg(NoCFlitMsg *msg) {
 		<< "." << msg->getFlitIdx() << " Queued to be sent from InVC:" << inVC <<" on OP:"
 		<< outPort << " outVC:" << outVC << endl;
 		// buffering is by inVC
-		if (QByiVC[inVC].length() >= flitsPerVC) {
+		if (QByiVC[inVC].getLength() >= flitsPerVC) {
 			throw cRuntimeError("-E- VC %d is already full receiving packet:%d",
 					inVC, msg->getPktId());
 		}
@@ -310,7 +310,7 @@ void InPortAsync::handleGntMsg(NoCGntMsg *msg) {
 	<< " through gate:" << msg->getArrivalGate()->getFullPath() <<" SimTime:" <<simTime()<< endl;
 
 	NoCFlitMsg* foundFlit = NULL;
-	if (!QByiVC[inVC].empty()) {
+	if (!QByiVC[inVC].isEmpty()) {
 		foundFlit = (NoCFlitMsg*)QByiVC[inVC].pop();
 		// Total queue size
 		measureQlength();
@@ -324,7 +324,7 @@ void InPortAsync::handleGntMsg(NoCGntMsg *msg) {
 		}
 
 		// If NOC_END_FLIT, then check if there is another packet, if yes send req.
-		if (foundFlit->getType() == NOC_END_FLIT && !QByiVC[inVC].empty()) {
+		if (foundFlit->getType() == NOC_END_FLIT && !QByiVC[inVC].isEmpty()) {
 				NoCFlitMsg* NextPkt = NULL;
 				NextPkt = (NoCFlitMsg*)QByiVC[inVC].front();
 				sendReq(NextPkt);
@@ -385,7 +385,7 @@ InPortAsync::~InPortAsync() {
 	numVCs = par("numVCs");
 	NoCFlitMsg* msg = NULL;
 	for (int vc = 0; vc < numVCs; vc++) {
-		while (!QByiVC[vc].empty()) {
+		while (!QByiVC[vc].isEmpty()) {
 			msg = (NoCFlitMsg*) QByiVC[vc].pop();
 			delete (msg); //cancelAndDelete?!
 		}
@@ -399,7 +399,7 @@ void InPortAsync::measureQlength() {
 		int numVCs = par("numVCs");
 		int Qsize = 0;
 		for (int vc = 0; vc < numVCs; vc++) {
-			Qsize = Qsize + QByiVC[vc].length();
+			Qsize = Qsize + QByiVC[vc].getLength();
 		}
 		QLenVec.record(Qsize);
 	}

@@ -134,7 +134,7 @@ void SchedSync::arbitrate() {
 	int nextVC;
 	bool found = false;
 
-	if (!ev.isDisabled()) {
+	if (!cSimulation::getActiveEnvir()->isLoggingEnabled()) {
 		EV << "-I- " << getFullPath() << " credits: ";
 		for (int vc = 0; vc < numVCs; vc++)
 			EV << vc << ":" << credits[vc] << " ";

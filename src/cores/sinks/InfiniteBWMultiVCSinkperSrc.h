@@ -20,7 +20,9 @@
 #define __HNOCS_INF_BW_MULTI_VC_PER_SRC_SINK_H_
 
 #include <omnetpp.h>
-#include <NoCs_m.h>
+using namespace omnetpp;
+
+#include "NoCs_m.h"
 //
 // The InfiniteBWMultiVCSinkperSrc is consuming FLITs
 //

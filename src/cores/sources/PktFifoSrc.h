@@ -20,7 +20,9 @@
 #define __HNOCS_PKT_FIFO_SOURCE_H_
 
 #include <omnetpp.h>
-#include <NoCs_m.h>
+using namespace omnetpp;
+
+#include "NoCs_m.h"
 
 #define MAXTRACESIZE 500000
 //
@@ -64,7 +66,7 @@ private:
 	double tClk_s;     // clk extracted from output channel
 
 	// Statistics
-	cLongHistogram dstIdHist;
+	cHistogram dstIdHist;
 	cOutVector dstIdVec;
 	cStdDev FullQueueIndicator; // If >0 then the queue was full during the simulation
 	cStdDev queueSize; // queue fill in % tracked every generation event

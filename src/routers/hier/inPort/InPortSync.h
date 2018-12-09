@@ -20,8 +20,10 @@
 #define __HNOCS_SYNC_INPORT_H_
 
 #include <omnetpp.h>
-#include <NoCs_m.h>
-#include <FlitMsgCtrl.h>
+using namespace omnetpp;
+
+#include "NoCs_m.h"
+#include "routers/hier/FlitMsgCtrl.h"
 
 //
 // Input Port of a router

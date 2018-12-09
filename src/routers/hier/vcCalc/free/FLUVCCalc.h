@@ -19,9 +19,11 @@
 #define __HNOCS_FLU_VCCALC_H_
 
 #include <omnetpp.h>
-#include <NoCs_m.h>
-#include <HierRouter.h>
-#include <FlitMsgCtrl.h>
+using namespace omnetpp;
+
+#include "NoCs_m.h"
+#include "routers/hier/HierRouter.h"
+#include "routers/hier/FlitMsgCtrl.h"
 
 //
 // The VC Calculation Class provides the means to modify the VC of the FLIT

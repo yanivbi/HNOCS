@@ -1,14 +1,84 @@
-#! /bin/sh
-DIR=`dirname $0`
+#!/bin/sh
+#
+# This script is intended to run HNOCS simulations both in debug and release mode.
+# It can be used only after the 'setenv' script has been run from both the OMNeT++
+# and the HNOCS top level directory using the '. setenv' command. To run a simulation,
+# simply go into its directory and run 'run' possibly passing additional command
+# line arguments. Please note that HNOCS must be compiled either in debug and/or
+# release mode using 'make MODE=debug' and/or 'make MODE=release' before.
+#
+# This script takes a few additional command line arguments compared to the ones
+# already allowed by OMNeT++. The command line argument '--release' starts the
+# HNOCS release version and '--debug' starts the debug version. If no such argument
+# is provided, then the script automatically selects one prefering the release
+# version over the debug version. The script can run HNOCS independently of how
+# its compiled, as executable or shared lib.
+#
 
-if [ -x $DIR/hnocs -o -x $DIR/hnocs.exe ]; then
-  $DIR/hnocs -n $DIR/../examples:$DIR $*
-else 
-  if [ -r $DIR/libhnocs.so -o -r $DIR/hnocs.dll ]; then
-     opp_run -l $DIR/hnocs -n $DIR/examples:$DIR $*
-  else 
-      echo ----------------------------------------------------------
-      echo Please run 'make makefiles; make' before invoking the demo
-      echo ----------------------------------------------------------
+HNOCS_ROOT=$(cd `dirname $0`/.. ; echo `pwd`)
+OUT=$HNOCS_ROOT/src
+
+TOOL=""
+MODE=""
+HNOCS_OMNETPP_OPTIONS="-n $OUT:$HNOCS_ROOT/examples"
+
+if [ "$1" = "--release" ]; then
+   MODE="release"
+   shift;
+fi
+
+if [ "$1" = "--debug" ]; then
+   MODE="debug"
+   shift;
+fi
+
+if [ "$1" = "--printcmd" ] || [ "$1" = "-p" ]; then
+   TOOL="echo"
+   shift;
+fi
+
+OPP_RUN_DBG=`which opp_run_dbg 2> /dev/null || echo opp_run_dbg`
+OPP_RUN_RELEASE=`which opp_run_release 2> /dev/null || echo opp_run_release`
+
+if [ "$MODE" = "" ]; then
+  if [ -f $OUT/hnocs ]; then
+    $TOOL $OUT/hnocs $HNOCS_OMNETPP_OPTIONS
+  elif [ -f $OUT/hnocs_dbg ]; then
+    $TOOL $OUT/hnocs_dbg $HNOCS_OMNETPP_OPTIONS
+  elif [ -f $OUT/hnocs.exe ]; then
+    $TOOL $OUT/hnocs.exe $HNOCS_OMNETPP_OPTIONS
+  elif [ -f $OUT/hnocs_dbg.exe ]; then
+    $TOOL $OUT/hnocs_dbg.exe $HNOCS_OMNETPP_OPTIONS
+  elif [ -f $OUT/libhnocs.so ] || [ -f $OUT/hnocs.dll ]; then
+    $TOOL $OPP_RUN_RELEASE -l $OUT/../src/hnocs $HNOCS_OMNETPP_OPTIONS "$@"
+  elif [ -f $OUT/libhnocs_dbg.so ] || [ -f $OUT/hnocs_dbg.dll ] || [ -f $OUT/libhnocs_dbg.dylib ]; then
+    $TOOL $OPP_RUN_DBG -l $OUT/../src/hnocs $HNOCS_OMNETPP_OPTIONS "$@"
+  else
+    echo "HNOCS executable or shared library not found"
   fi
 fi
+
+if [ "$MODE" = "release" ]; then
+  if [ -f $OUT/hnocs ]; then
+    $TOOL $OUT/hnocs $HNOCS_OMNETPP_OPTIONS
+  elif [ -f $OUT/hnocs.exe ]; then
+    $TOOL $OUT/hnocs.exe $HNOCS_OMNETPP_OPTIONS
+  elif [ -f $OUT/libhnocs.so ] || [ -f $OUT/hnocs.dll ] || [ -f $OUT/libhnocs.dylib ]; then
+    $TOOL $OPP_RUN_RELEASE -l $OUT/../src/hnocs $HNOCS_OMNETPP_OPTIONS "$@"
+  else
+    echo "HNOCS release executable or shared library not found"
+  fi
+fi
+
+if [ "$MODE" = "debug" ]; then
+  if [ -f $OUT/hnocs_dbg ]; then
+    $TOOL $OUT/hnocs_dbg $HNOCS_OMNETPP_OPTIONS
+  elif [ -f $OUT/hnocs_dbg.exe ]; then
+    $TOOL $OUT/hnocs_dbg.exe $HNOCS_OMNETPP_OPTIONS
+  elif [ -f $OUT/libhnocs_dbg.so ] || [ -f $OUT/hnocs_dbg.dll ] || [ -f $OUT/libhnocs_dbg.dylib ]; then
+    $TOOL $OPP_RUN_DBG -l $OUT/../src/hnocs $HNOCS_OMNETPP_OPTIONS "$@"
+  else
+    echo "HNOCS debug executable or shared library not found"
+  fi
+fi
+

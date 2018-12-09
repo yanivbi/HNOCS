@@ -18,6 +18,8 @@
 #ifndef __HNOCS_HIER_ROUTER_H_
 #define __HNOCS_HIER_ROUTER_H_
 #include <omnetpp.h>
+using namespace omnetpp;
+
 // we need extra info inside the InPort for tracking FLITs
 class Sched : public cSimpleModule {
 public:

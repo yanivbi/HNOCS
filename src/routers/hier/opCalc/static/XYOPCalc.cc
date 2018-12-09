@@ -5,15 +5,15 @@
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
+//
 
 #include "XYOPCalc.h"
 #include <NoCs_m.h>
@@ -69,7 +69,7 @@ XYOPCalc::getPortRemoteCore(cModule *port)
 	return neighbour;
 }
 
-// Given the port pointer find the index idx such that sw_out[idx] 
+// Given the port pointer find the index idx such that sw_out[idx]
 // connect to that port
 int
 XYOPCalc::getIdxOfSwPortConnectedToPort(cModule *port)
@@ -100,8 +100,8 @@ XYOPCalc::analyzeMeshTopology()
 	cModule *router = getParentModule()->getParentModule();
 	// go over all the router ports and check their remote side if they are of type "Port"
 	for (cModule::SubmoduleIterator iter(router); !iter.end(); iter++) {
-		if (! isPortModule(iter())) continue;
-		cModule *port = iter();
+		if (! isPortModule(*iter)) continue;
+		cModule *port = *iter;
 
 	    // get the port module on the other side of the
 		cModule *remPort = getPortRemotePort(port);
